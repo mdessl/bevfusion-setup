@@ -6,25 +6,10 @@ echo "================================"
 
 cd /mmdet3d/data/nuscenes
 
-# Extract all zip and tar files
-echo "Extracting zip files..."
-for file in *.zip; do
-    if [ -f "$file" ]; then
-        echo "Extracting $file..."
-        unzip "$file" && rm "$file"
-    fi
-done
+sudo apt-get install pigz  # On Debian/Ubuntu
+sudo apt install zip unzip
+for file in *.zip; do unzip "$file" && rm "$file"; done; for file in *.tar; do tar --use-compress-program=pigz --blocking-factor=512 -xvf "$file" && rm "$file"; done; mv expansion basemap prediction maps/
 
-echo "Extracting tar files..."
-for file in *.tar; do
-    if [ -f "$file" ]; then
-        echo "Extracting $file..."
-        tar --use-compress-program=pigz --blocking-factor=512 -xvf "$file" && rm "$file"
-    fi
-done
-
-# Move map files
-mv expansion basemap prediction maps/ 2>/dev/null || true
 
 # Download and setup info files
 rm -f nuscenes_infos_train.pkl nuscenes_infos_val.pkl

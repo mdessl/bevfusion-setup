@@ -28,10 +28,8 @@ sudo apt-get update
 sudo apt-get install -y ffmpeg libsm6 libxext6 pigz zip unzip
 
 # Detect CUDA version and install appropriate packages
-CUDA_VERSION=$(nvcc --version | grep "release" | awk '{print $6}' | cut -c1-4 | sed 's/\.//')
-pip install cumm-cu${CUDA_VERSION}
-pip install spconv-cu${CUDA_VERSION}
-
+pip install cumm-cu120 # eg cumm-cu120 if cuda is 12.0
+pip install spconv-cu120
 # Configure tmux scroll
 echo "set -g mouse on" > ~/.tmux.conf
 tmux source-file ~/.tmux.conf
